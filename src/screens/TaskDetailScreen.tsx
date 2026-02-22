@@ -4,7 +4,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '../components/Icon';
 import { useApp } from '../context/AppContext';
 import { Button } from '../components/Button';
 import { colors, radii } from '../theme/theme';
@@ -70,7 +70,7 @@ export function TaskDetailScreen({ route, navigation }: { route: any; navigation
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
-        <Ionicons name="arrow-back" size={22} color={colors.primary} />
+        <Icon name="arrow-back" size={22} color={colors.primary} />
         <Text style={styles.backText}>Back</Text>
       </TouchableOpacity>
       <Text style={styles.title}>{task.title}</Text>

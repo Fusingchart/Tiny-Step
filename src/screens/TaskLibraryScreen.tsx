@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '../components/Icon';
 import { useApp } from '../context/AppContext';
 import { BottomBar } from '../components/BottomBar';
 import { CATEGORY_LABELS } from '../constants';
@@ -54,7 +54,7 @@ export function TaskLibraryScreen({ navigation }: { navigation: any }) {
                 activeOpacity={0.7}
               >
                 <Text style={styles.rowText}>{tpl.name}</Text>
-                <Ionicons name="chevron-forward" size={20} color={colors.primary} />
+                <Icon name="chevron-forward" size={20} color={colors.primary} />
               </TouchableOpacity>
             ))}
           </View>

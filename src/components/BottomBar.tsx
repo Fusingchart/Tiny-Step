@@ -4,10 +4,10 @@
 
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { colors, radii } from '../theme/theme';
+import { Icon } from './Icon';
 
-const ICONS: Record<string, keyof typeof Ionicons.glyphMap> = {
+const ICONS: Record<string, string> = {
   Home: 'home-outline',
   Library: 'library-outline',
   Progress: 'bar-chart-outline',
@@ -35,8 +35,8 @@ export function BottomBar({ links }: BottomBarProps) {
             activeOpacity={0.7}
             accessibilityLabel={link.label}
           >
-            <Ionicons
-              name={ICONS[link.label] ?? 'ellipse-outline'}
+            <Icon
+              name={ICONS[link.label] || 'ellipse-outline'}
               size={22}
               color={colors.primary}
             />

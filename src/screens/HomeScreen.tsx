@@ -4,7 +4,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { View, Text, FlatList, TouchableOpacity, TextInput, StyleSheet, Alert } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Icon } from '../components/Icon';
 import { useApp } from '../context/AppContext';
 import { BottomBar } from '../components/BottomBar';
 import { getFriendlyInsight } from '../engine/personalization';
@@ -89,13 +89,13 @@ export function HomeScreen({ navigation }: { navigation: any }) {
           activeOpacity={0.8}
         >
           <View style={styles.suggestedIcon}>
-            <Ionicons name="flash" size={20} color={colors.accent} />
+            <Icon name="flash" size={20} color={colors.accent} />
           </View>
           <View style={styles.suggestedContent}>
             <Text style={styles.suggestedLabel}>Suggested next</Text>
             <Text style={styles.suggestedTitle}>{suggestedTask.title}</Text>
           </View>
-          <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
+          <Icon name="chevron-forward" size={20} color={colors.textMuted} />
         </TouchableOpacity>
       )}
 
@@ -151,7 +151,7 @@ export function HomeScreen({ navigation }: { navigation: any }) {
 
       {insight && (
         <View style={styles.insight}>
-          <Ionicons name="bulb-outline" size={20} color={colors.warning} />
+          <Icon name="bulb-outline" size={20} color={colors.warning} />
           <Text style={styles.insightText}>{insight}</Text>
         </View>
       )}
@@ -183,7 +183,7 @@ export function HomeScreen({ navigation }: { navigation: any }) {
               onPress={(e) => { e.stopPropagation(); completeTask(item.id); }}
             >
               <View style={styles.checkboxCircle}>
-                <Ionicons name="ellipse-outline" size={24} color={colors.primary} />
+                <Icon name="ellipse-outline" size={24} color={colors.primary} />
               </View>
             </TouchableOpacity>
             <View style={styles.taskContent}>
@@ -205,7 +205,7 @@ export function HomeScreen({ navigation }: { navigation: any }) {
                 </View>
               )}
             </View>
-            <Ionicons name="chevron-forward" size={20} color={colors.primary} />
+            <Icon name="chevron-forward" size={20} color={colors.primary} />
           </TouchableOpacity>
         )}
         ListFooterComponent={
