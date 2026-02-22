@@ -5,8 +5,10 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useApp } from '../context/AppContext';
 import { Button } from '../components/Button';
+import { colors, radii } from '../theme/theme';
 
 const TIMER_CHIPS = [2, 5, 10];
 
@@ -100,9 +102,26 @@ export function SessionRunnerScreen({ route, navigation }: { route: any; navigat
   return (
     <View style={styles.container}>
       <Text style={styles.taskTitle}>{session.taskTitle}</Text>
-      <Text style={styles.stepCounter}>
-        Step {session.currentStepIndex + 1} of {session.microSteps.length}
-      </Text>
+      <View style={styles.stepProgress}>
+        <View style={styles.stepDots}>
+          {session.microSteps.slice(0, 8).map((_, i) => (
+            <View
+              key={i}
+              style={[
+                styles.stepDot,
+                i < session.currentStepIndex && styles.stepDotDone,
+                i === session.currentStepIndex && styles.stepDotCurrent,
+              ]}
+            />
+          ))}
+          {session.microSteps.length > 8 && (
+            <Text style={styles.stepDotMore}>+{session.microSteps.length - 8}</Text>
+          )}
+        </View>
+        <Text style={styles.stepCounter}>
+          Step {session.currentStepIndex + 1} of {session.microSteps.length}
+        </Text>
+      </View>
 
       <View style={styles.stepCard}>
         <Text style={styles.stepText}>{currentStep?.text ?? 'All done!'}</Text>
@@ -164,63 +183,74 @@ export function SessionRunnerScreen({ route, navigation }: { route: any; navigat
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1a1a2e',
+    backgroundColor: colors.sessionBg,
     padding: 24,
     paddingTop: 80,
   },
-  taskTitle: { fontSize: 18, color: '#a0a0b0', marginBottom: 4 },
-  stepCounter: { fontSize: 14, color: '#7eddd6', marginBottom: 32 },
+  taskTitle: { fontSize: 18, color: colors.sessionAccent, marginBottom: 8 },
+  stepProgress: { marginBottom: 28 },
+  stepDots: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 8 },
+  stepDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+  },
+  stepDotDone: { backgroundColor: colors.success },
+  stepDotCurrent: { width: 24, backgroundColor: colors.sessionAccent },
+  stepDotMore: { fontSize: 12, color: colors.sessionAccent, marginLeft: 4 },
+  stepCounter: { fontSize: 14, color: colors.sessionAccent },
   stepCard: {
-    backgroundColor: '#252540',
-    borderRadius: 16,
+    backgroundColor: colors.sessionSurface,
+    borderRadius: radii.lg,
     padding: 28,
     marginBottom: 24,
-    minHeight: 120,
+    minHeight: 140,
     justifyContent: 'center',
   },
-  stepText: { fontSize: 22, fontWeight: '600', color: '#f0f0f5', lineHeight: 32 },
-  text: { fontSize: 18, color: '#f0f0f5', marginBottom: 24 },
+  stepText: { fontSize: 22, fontWeight: '600', color: '#fff', lineHeight: 32 },
+  text: { fontSize: 18, color: '#fff', marginBottom: 24 },
   breakBanner: {
-    backgroundColor: '#2a4a47',
-    borderRadius: 12,
-    padding: 16,
+    backgroundColor: colors.sessionSurface,
+    borderRadius: radii.md,
+    padding: 20,
     marginBottom: 24,
   },
-  breakText: { fontSize: 15, color: '#7eddd6', marginBottom: 12 },
+  breakText: { fontSize: 15, color: colors.sessionAccent, marginBottom: 14 },
   breakBtn: {
     alignSelf: 'flex-start',
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    backgroundColor: '#4ecdc4',
-    borderRadius: 8,
+    paddingHorizontal: 18,
+    paddingVertical: 10,
+    backgroundColor: colors.primary,
+    borderRadius: radii.sm,
   },
-  breakBtnText: { fontSize: 14, fontWeight: '600', color: '#1a1a2e' },
+  breakBtnText: { fontSize: 14, fontWeight: '700', color: '#fff' },
   timerSection: { marginBottom: 32 },
   timerRow: { flexDirection: 'row', gap: 12, marginBottom: 12 },
   timerChip: {
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderRadius: 20,
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    borderRadius: radii.full,
     borderWidth: 2,
-    borderColor: '#3a3a55',
+    borderColor: 'rgba(255,255,255,0.2)',
   },
-  timerChipActive: { borderColor: '#4ecdc4', backgroundColor: '#2a4a47' },
-  timerText: { fontSize: 14, color: '#a0a0b0' },
-  timerTextActive: { color: '#4ecdc4', fontWeight: '600' },
+  timerChipActive: { borderColor: colors.sessionAccent, backgroundColor: colors.sessionSurface },
+  timerText: { fontSize: 14, color: 'rgba(255,255,255,0.6)' },
+  timerTextActive: { color: colors.sessionAccent, fontWeight: '600' },
   countdownBox: {
-    backgroundColor: '#252540',
+    backgroundColor: colors.sessionSurface,
     borderRadius: 12,
     padding: 20,
     alignItems: 'center',
   },
-  countdownLabel: { fontSize: 12, color: '#a0a0b0', marginBottom: 4 },
-  countdownValue: { fontSize: 36, fontWeight: '700', color: '#4ecdc4' },
+  countdownLabel: { fontSize: 12, color: 'rgba(255,255,255,0.6)', marginBottom: 4 },
+  countdownValue: { fontSize: 36, fontWeight: '700', color: colors.sessionAccent },
   actions: { gap: 12 },
   doneBtn: { marginBottom: 4 },
   skipBtn: { alignItems: 'center', paddingVertical: 14 },
-  skipText: { fontSize: 16, color: '#7eddd6' },
+  skipText: { fontSize: 16, color: colors.sessionAccent },
   smallerBtn: { alignItems: 'center', paddingVertical: 14 },
-  smallerText: { fontSize: 14, color: '#a0a0b0' },
+  smallerText: { fontSize: 14, color: 'rgba(255,255,255,0.6)' },
   endSession: { position: 'absolute', bottom: 40, alignSelf: 'center' },
   endText: { fontSize: 14, color: '#666' },
 });

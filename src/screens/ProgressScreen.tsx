@@ -11,6 +11,7 @@ import type { Session } from '../types/models';
 import { format } from 'date-fns';
 import { analyzeInsights } from '../engine/insights';
 import { CATEGORY_LABELS } from '../constants';
+import { colors, radii } from '../theme/theme';
 
 export function ProgressScreen({ navigation }: { navigation: any }) {
   const { insights, tasks } = useApp();
@@ -24,8 +25,10 @@ export function ProgressScreen({ navigation }: { navigation: any }) {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <Text style={styles.title}>Your progress</Text>
-      <Text style={styles.tagline}>Small wins add up.</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>Your progress</Text>
+        <Text style={styles.tagline}>Small wins add up.</Text>
+      </View>
 
       <View style={styles.cards}>
         <View style={styles.card}>
@@ -151,60 +154,64 @@ export function ProgressScreen({ navigation }: { navigation: any }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fafafa' },
+  container: { flex: 1, backgroundColor: colors.background },
   content: { padding: 20, paddingTop: 80, paddingBottom: 120 },
-  title: { fontSize: 28, fontWeight: '700', color: '#1a1a2e', marginBottom: 4 },
-  tagline: { fontSize: 16, color: '#4a4a5a', marginBottom: 32 },
+  header: { marginBottom: 28 },
+  title: { fontSize: 28, fontWeight: '800', color: colors.text, marginBottom: 6 },
+  tagline: { fontSize: 16, color: colors.textSecondary },
   cards: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, marginBottom: 24 },
   card: {
     flex: 1,
     minWidth: 100,
-    backgroundColor: '#fff',
+    backgroundColor: colors.surface,
     padding: 20,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#e0e0e0',
+    borderRadius: radii.md,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.04,
+    shadowRadius: 8,
+    elevation: 2,
   },
-  cardValue: { fontSize: 28, fontWeight: '700', color: '#4ecdc4', marginBottom: 4 },
-  cardLabel: { fontSize: 14, color: '#4a4a5a' },
+  cardValue: { fontSize: 28, fontWeight: '800', color: colors.primary, marginBottom: 4 },
+  cardLabel: { fontSize: 14, color: colors.textSecondary },
   kindness: {
-    backgroundColor: '#fff3cd',
+    backgroundColor: '#FFF9E8',
     padding: 16,
-    borderRadius: 12,
+    borderRadius: radii.md,
   },
   kindnessText: { fontSize: 16, color: '#1a1a2e' },
   section: { marginTop: 32 },
   sectionTitle: { fontSize: 18, fontWeight: '600', color: '#1a1a2e', marginBottom: 12 },
   sessionRow: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.surface,
     padding: 16,
-    borderRadius: 12,
+    borderRadius: radii.md,
     marginBottom: 8,
-    borderWidth: 1,
-    borderColor: '#e0e0e0',
+    borderWidth: 2,
+    borderColor: colors.border,
   },
   sessionTitle: { fontSize: 16, fontWeight: '500', color: '#1a1a2e' },
   sessionMeta: { fontSize: 13, color: '#888', marginTop: 4 },
   insightCard: {
-    backgroundColor: '#e8f6f5',
+    backgroundColor: colors.accentSoft,
     padding: 16,
-    borderRadius: 12,
+    borderRadius: radii.md,
     marginBottom: 8,
   },
   insightText: { fontSize: 15, color: '#1a1a2e', lineHeight: 22 },
   patternCard: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.surface,
     padding: 16,
-    borderRadius: 12,
+    borderRadius: radii.md,
     marginBottom: 8,
-    borderWidth: 1,
-    borderColor: '#e0e0e0',
+    borderWidth: 2,
+    borderColor: colors.border,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   patternLabel: { fontSize: 15, color: '#4a4a5a' },
-  patternValue: { fontSize: 18, fontWeight: '600', color: '#4ecdc4' },
+  patternValue: { fontSize: 18, fontWeight: '700', color: colors.primary },
   categoryRow: { marginBottom: 12 },
   categoryInfo: {
     flexDirection: 'row',
@@ -213,17 +220,17 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   categoryName: { fontSize: 15, fontWeight: '500', color: '#1a1a2e' },
-  categoryPercent: { fontSize: 14, color: '#4ecdc4', fontWeight: '600' },
+  categoryPercent: { fontSize: 14, color: colors.primary, fontWeight: '600' },
   progressBar: {
-    height: 8,
-    backgroundColor: '#e8e8e8',
-    borderRadius: 4,
+    height: 10,
+    backgroundColor: colors.surfaceSoft,
+    borderRadius: radii.sm,
     overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
-    backgroundColor: '#4ecdc4',
-    borderRadius: 4,
+    backgroundColor: colors.primary,
+    borderRadius: radii.sm,
   },
   weeklyChart: {
     flexDirection: 'row',
@@ -240,10 +247,10 @@ const styles = StyleSheet.create({
   },
   weeklyBarFill: {
     width: '100%',
-    backgroundColor: '#4ecdc4',
-    borderRadius: 4,
+    backgroundColor: colors.primary,
+    borderRadius: radii.sm,
     minHeight: 4,
   },
   weeklyBarLabel: { fontSize: 11, color: '#888', marginTop: 6 },
-  weeklyBarValue: { fontSize: 10, color: '#4ecdc4', fontWeight: '600', marginTop: 2 },
+  weeklyBarValue: { fontSize: 10, color: colors.primary, fontWeight: '600', marginTop: 2 },
 });

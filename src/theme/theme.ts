@@ -1,31 +1,59 @@
 /**
- * Theme colors - light and dark
+ * Next Step - Playful, adult-oriented design system
+ * Inspired by Duolingo + Finch: warm, friendly, rewarding
  */
 
-export const lightTheme = {
-  background: '#fafafa',
-  surface: '#ffffff',
-  surfaceSecondary: '#f5f5f5',
-  text: '#1a1a2e',
-  textSecondary: '#4a4a5a',
-  accent: '#4ecdc4',
-  accentMuted: '#7eddd6',
-  border: '#e0e0e0',
-  success: '#2ecc71',
-  warning: '#f39c12',
-  error: '#e74c3c',
+export const colors = {
+  // Primary - warm teal (Finch-like)
+  primary: '#00B89F',
+  primaryDark: '#009985',
+  primaryLight: '#7EDDCE',
+
+  // Accents
+  accent: '#FF8C42',      // Warm coral for highlights
+  accentSoft: '#FFE5D4',
+  success: '#34C759',     // Fresh green for wins
+  warning: '#FFB800',     // Sunny yellow
+  destructive: '#E53935', // Red for destructive actions
+
+  // Neutrals - warm undertones
+  background: '#FDF8F5',
+  surface: '#FFFFFF',
+  surfaceSoft: '#F7F3EF',
+  border: '#E8E2DC',
+
+  // Text
+  text: '#2D2A26',
+  textSecondary: '#6B6560',
+  textMuted: '#9C9590',
+
+  // Session (focused mode)
+  sessionBg: '#1E3A3A',
+  sessionSurface: '#2A4A4A',
+  sessionAccent: '#7EDDCE',
 };
 
-export const darkTheme = {
-  background: '#0f0f1a',
-  surface: '#1a1a2e',
-  surfaceSecondary: '#252540',
-  text: '#f0f0f5',
-  textSecondary: '#a0a0b0',
-  accent: '#4ecdc4',
-  accentMuted: '#3db8b0',
-  border: '#2a2a45',
-  success: '#2ecc71',
-  warning: '#f39c12',
-  error: '#e74c3c',
+export const spacing = {
+  xs: 4,
+  sm: 8,
+  md: 16,
+  lg: 24,
+  xl: 32,
+};
+
+export const radii = {
+  sm: 12,
+  md: 16,
+  lg: 20,
+  full: 9999,
+};
+
+// Legacy exports
+export const lightTheme = {
+  background: colors.background,
+  surface: colors.surface,
+  text: colors.text,
+  textSecondary: colors.textSecondary,
+  accent: colors.primary,
+  accentMuted: colors.primaryLight,
 };

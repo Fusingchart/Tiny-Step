@@ -4,12 +4,13 @@
 
 import React, { useState, useMemo } from 'react';
 import { View, Text, FlatList, TouchableOpacity, TextInput, StyleSheet, Alert } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useApp } from '../context/AppContext';
-import { Button } from '../components/Button';
 import { BottomBar } from '../components/BottomBar';
 import { getFriendlyInsight } from '../engine/personalization';
 import { format, isToday, isTomorrow } from 'date-fns';
 import { CATEGORY_LABELS } from '../constants';
+import { colors, radii } from '../theme/theme';
 
 export function HomeScreen({ navigation }: { navigation: any }) {
   const { tasks, addTask, deleteTask, completeTask, quickAddPresets, insights } = useApp();
@@ -58,7 +59,10 @@ export function HomeScreen({ navigation }: { navigation: any }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>What's on your mind?</Text>
+      <View style={styles.header}>
+        <Text style={styles.greeting}>What's on your mind?</Text>
+        <Text style={styles.subtitle}>Add a task and we'll break it into tiny steps.</Text>
+      </View>
       <View style={styles.inputRow}>
         <TextInput
         style={styles.input}
@@ -82,9 +86,16 @@ export function HomeScreen({ navigation }: { navigation: any }) {
         <TouchableOpacity
           style={styles.suggestedBanner}
           onPress={() => navigation.navigate('TaskDetail', { taskId: suggestedTask.id })}
+          activeOpacity={0.8}
         >
-          <Text style={styles.suggestedLabel}>Suggested next</Text>
-          <Text style={styles.suggestedTitle}>{suggestedTask.title}</Text>
+          <View style={styles.suggestedIcon}>
+            <Ionicons name="flash" size={20} color={colors.accent} />
+          </View>
+          <View style={styles.suggestedContent}>
+            <Text style={styles.suggestedLabel}>Suggested next</Text>
+            <Text style={styles.suggestedTitle}>{suggestedTask.title}</Text>
+          </View>
+          <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
         </TouchableOpacity>
       )}
 
@@ -121,26 +132,38 @@ export function HomeScreen({ navigation }: { navigation: any }) {
 
       {quickAddPresets.length > 0 && (
         <View style={styles.presets}>
-          {quickAddPresets.map((p) => (
-            <TouchableOpacity
-              key={p.templateId}
-              style={styles.presetChip}
-              onPress={() => handleAdd(p.label, p.templateId)}
-              accessibilityLabel={`Quick add ${p.label}`}
-            >
-              <Text style={styles.presetText}>{p.label}</Text>
-            </TouchableOpacity>
-          ))}
+          <Text style={styles.presetsLabel}>Quick add</Text>
+          <View style={styles.presetRow}>
+            {quickAddPresets.map((p) => (
+              <TouchableOpacity
+                key={p.templateId}
+                style={styles.presetChip}
+                onPress={() => handleAdd(p.label, p.templateId)}
+                activeOpacity={0.8}
+                accessibilityLabel={`Quick add ${p.label}`}
+              >
+                <Text style={styles.presetText}>{p.label}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
         </View>
       )}
 
       {insight && (
         <View style={styles.insight}>
+          <Ionicons name="bulb-outline" size={20} color={colors.warning} />
           <Text style={styles.insightText}>{insight}</Text>
         </View>
       )}
 
-      <Text style={styles.headline}>Your tasks</Text>
+      <View style={styles.headlineRow}>
+        <Text style={styles.headline}>Your tasks</Text>
+        {activeTasks.length > 0 && (
+          <View style={styles.countBadge}>
+            <Text style={styles.countBadgeText}>{activeTasks.length}</Text>
+          </View>
+        )}
+      </View>
       <FlatList
         data={activeTasks}
         keyExtractor={(t) => t.id}
@@ -159,7 +182,9 @@ export function HomeScreen({ navigation }: { navigation: any }) {
               style={styles.checkbox}
               onPress={(e) => { e.stopPropagation(); completeTask(item.id); }}
             >
-              <Text style={styles.checkboxText}>○</Text>
+              <View style={styles.checkboxCircle}>
+                <Ionicons name="ellipse-outline" size={24} color={colors.primary} />
+              </View>
             </TouchableOpacity>
             <View style={styles.taskContent}>
               <Text style={styles.taskTitle}>{item.title}</Text>
@@ -180,7 +205,7 @@ export function HomeScreen({ navigation }: { navigation: any }) {
                 </View>
               )}
             </View>
-            <Text style={styles.taskArrow}>→</Text>
+            <Ionicons name="chevron-forward" size={20} color={colors.primary} />
           </TouchableOpacity>
         )}
         ListFooterComponent={
@@ -207,79 +232,119 @@ export function HomeScreen({ navigation }: { navigation: any }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fafafa', padding: 20, paddingTop: 60 },
-  title: { fontSize: 28, fontWeight: '700', color: '#1a1a2e', marginBottom: 12 },
+  container: { flex: 1, backgroundColor: colors.background, padding: 20, paddingTop: 60 },
+  header: { marginBottom: 20 },
+  greeting: { fontSize: 28, fontWeight: '800', color: colors.text, marginBottom: 6 },
+  subtitle: { fontSize: 16, color: colors.textSecondary },
   input: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.surface,
     borderWidth: 2,
-    borderColor: '#e0e0e0',
-    borderRadius: 12,
+    borderColor: colors.border,
+    borderRadius: radii.md,
     padding: 16,
     fontSize: 16,
-    color: '#1a1a2e',
+    color: colors.text,
   },
-  presets: { flexDirection: 'row', flexWrap: 'wrap', marginTop: 16, gap: 8 },
-  presetChip: {
-    backgroundColor: '#e8f6f5',
+  inputRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  addDetailsBtn: {
+    paddingVertical: 14,
     paddingHorizontal: 14,
-    paddingVertical: 10,
-    borderRadius: 20,
+    backgroundColor: colors.accentSoft,
+    borderRadius: radii.md,
   },
-  presetText: { fontSize: 14, fontWeight: '600', color: '#1a1a2e' },
-  insight: { marginTop: 16, padding: 12, backgroundColor: '#fff3cd', borderRadius: 8 },
-  insightText: { fontSize: 14, color: '#1a1a2e' },
-  headline: { fontSize: 20, fontWeight: '600', color: '#1a1a2e', marginTop: 24, marginBottom: 12 },
-  list: { paddingBottom: 80 },
-  empty: { color: '#888', fontSize: 16, marginTop: 8 },
+  addDetailsText: { fontSize: 14, color: colors.accent, fontWeight: '700' },
+  suggestedBanner: {
+    marginTop: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: colors.surface,
+    borderRadius: radii.md,
+    borderWidth: 2,
+    borderColor: colors.primaryLight,
+    gap: 12,
+  },
+  suggestedIcon: { width: 40, height: 40, borderRadius: 20, backgroundColor: colors.accentSoft, alignItems: 'center', justifyContent: 'center' },
+  suggestedContent: { flex: 1 },
+  suggestedLabel: { fontSize: 12, color: colors.textSecondary, marginBottom: 2 },
+  suggestedTitle: { fontSize: 16, fontWeight: '600', color: colors.text },
+  presets: { marginTop: 20 },
+  presetsLabel: { fontSize: 14, fontWeight: '600', color: colors.textSecondary, marginBottom: 10 },
+  presetRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
+  presetChip: {
+    backgroundColor: colors.surface,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: radii.full,
+    borderWidth: 2,
+    borderColor: colors.border,
+  },
+  presetText: { fontSize: 14, fontWeight: '600', color: colors.text },
+  insight: {
+    marginTop: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    padding: 16,
+    backgroundColor: '#FFF9E8',
+    borderRadius: radii.md,
+  },
+  insightText: { flex: 1, fontSize: 14, color: colors.text },
+  headlineRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 28, marginBottom: 14 },
+  headline: { fontSize: 20, fontWeight: '700', color: colors.text },
+  countBadge: {
+    backgroundColor: colors.primary,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: radii.full,
+  },
+  countBadgeText: { fontSize: 13, fontWeight: '700', color: '#fff' },
+  list: { paddingBottom: 100 },
+  empty: { color: colors.textMuted, fontSize: 16, marginTop: 8 },
   taskRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: colors.surface,
     padding: 18,
-    borderRadius: 12,
-    marginBottom: 8,
-    borderWidth: 1,
-    borderColor: '#e0e0e0',
-    minHeight: 56,
+    borderRadius: radii.md,
+    marginBottom: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.04,
+    shadowRadius: 4,
+    elevation: 2,
+    minHeight: 64,
   },
   taskContent: { flex: 1 },
-  taskTitle: { fontSize: 17, fontWeight: '500', color: '#1a1a2e' },
-  taskMeta: { flexDirection: 'row', gap: 12, marginTop: 4 },
-  taskCategory: { fontSize: 12, color: '#4ecdc4', fontWeight: '600' },
-  taskDue: { fontSize: 12, color: '#888' },
-  taskArrow: { fontSize: 18, color: '#4ecdc4', marginLeft: 8 },
-  filterRow: { marginTop: 16 },
+  taskTitle: { fontSize: 17, fontWeight: '600', color: colors.text },
+  taskMeta: { flexDirection: 'row', gap: 12, marginTop: 6 },
+  taskCategory: { fontSize: 12, color: colors.primary, fontWeight: '600' },
+  taskDue: { fontSize: 12, color: colors.textMuted },
+  filterRow: { marginTop: 20 },
   searchInput: {
-    backgroundColor: '#fff',
-    borderWidth: 1,
-    borderColor: '#e0e0e0',
-    borderRadius: 10,
+    backgroundColor: colors.surface,
+    borderWidth: 2,
+    borderColor: colors.border,
+    borderRadius: radii.sm,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    fontSize: 15,
+    color: colors.text,
+    marginBottom: 12,
+  },
+  categoryChips: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
+  categoryChip: {
     paddingHorizontal: 14,
     paddingVertical: 10,
-    fontSize: 15,
-    color: '#1a1a2e',
-    marginBottom: 10,
+    borderRadius: radii.full,
+    backgroundColor: colors.surfaceSoft,
   },
-  categoryChips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  categoryChip: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 16,
-    backgroundColor: '#f0f0f0',
-  },
-  categoryChipActive: { backgroundColor: '#4ecdc4' },
-  categoryChipText: { fontSize: 13, color: '#4a4a5a', fontWeight: '500' },
-  categoryChipTextActive: { color: '#1a1a2e' },
-  inputRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  addDetailsBtn: { paddingVertical: 14, paddingHorizontal: 12 },
-  addDetailsText: { fontSize: 14, color: '#4ecdc4', fontWeight: '600' },
-  suggestedBanner: { marginTop: 16, padding: 16, backgroundColor: '#e8f6f5', borderRadius: 12 },
-  suggestedLabel: { fontSize: 12, color: '#4a4a5a', marginBottom: 4 },
-  suggestedTitle: { fontSize: 16, fontWeight: '600', color: '#1a1a2e' },
-  checkbox: { marginRight: 12, padding: 4 },
-  checkboxText: { fontSize: 20, color: '#4ecdc4' },
-  completedToggle: { marginTop: 16, paddingVertical: 12 },
-  completedToggleText: { fontSize: 14, color: '#4ecdc4', fontWeight: '600' },
+  categoryChipActive: { backgroundColor: colors.primary },
+  categoryChipText: { fontSize: 13, color: colors.textSecondary, fontWeight: '600' },
+  categoryChipTextActive: { color: '#fff' },
+  checkbox: { marginRight: 14 },
+  checkboxCircle: {},
+  completedToggle: { marginTop: 20, paddingVertical: 14 },
+  completedToggleText: { fontSize: 14, color: colors.primary, fontWeight: '600' },
 });

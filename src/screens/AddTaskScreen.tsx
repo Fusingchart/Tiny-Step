@@ -4,10 +4,11 @@
 
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useApp } from '../context/AppContext';
 import { Button } from '../components/Button';
-import { BottomBar } from '../components/BottomBar';
 import { CATEGORY_LABELS, ENERGY_LABELS } from '../constants';
+import { colors, radii } from '../theme/theme';
 import type { TaskCategory, EnergyLevel } from '../types/models';
 
 const CATEGORIES: TaskCategory[] = ['home', 'work', 'self-care', 'admin', 'planning', 'other'];
@@ -39,7 +40,8 @@ export function AddTaskScreen({ navigation }: { navigation: any }) {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
-        <Text style={styles.backText}>← Back</Text>
+        <Ionicons name="arrow-back" size={22} color={colors.primary} />
+        <Text style={styles.backText}>Back</Text>
       </TouchableOpacity>
 
       <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
@@ -114,40 +116,40 @@ export function AddTaskScreen({ navigation }: { navigation: any }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fafafa' },
-  back: { paddingTop: 56, paddingHorizontal: 20, paddingBottom: 8 },
-  backText: { fontSize: 16, color: '#4ecdc4', fontWeight: '600' },
+  container: { flex: 1, backgroundColor: colors.background },
+  back: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingTop: 56, paddingHorizontal: 20, paddingBottom: 16 },
+  backText: { fontSize: 17, color: colors.primary, fontWeight: '600' },
   scroll: { flex: 1 },
-  content: { padding: 20, paddingBottom: 100 },
-  title: { fontSize: 28, fontWeight: '700', color: '#1a1a2e', marginBottom: 24 },
-  label: { fontSize: 14, fontWeight: '600', color: '#4a4a5a', marginBottom: 8 },
+  content: { padding: 20, paddingBottom: 40 },
+  title: { fontSize: 28, fontWeight: '800', color: colors.text, marginBottom: 24 },
+  label: { fontSize: 14, fontWeight: '600', color: colors.textSecondary, marginBottom: 8 },
   input: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.surface,
     borderWidth: 2,
-    borderColor: '#e0e0e0',
-    borderRadius: 12,
+    borderColor: colors.border,
+    borderRadius: radii.md,
     padding: 16,
     fontSize: 16,
-    color: '#1a1a2e',
+    color: colors.text,
     marginBottom: 20,
   },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 20 },
   chip: {
     paddingHorizontal: 14,
     paddingVertical: 10,
-    borderRadius: 20,
-    backgroundColor: '#f0f0f0',
+    borderRadius: radii.full,
+    backgroundColor: colors.surfaceSoft,
   },
-  chipActive: { backgroundColor: '#4ecdc4' },
-  chipText: { fontSize: 14, color: '#4a4a5a', fontWeight: '500' },
-  chipTextActive: { color: '#1a1a2e' },
+  chipActive: { backgroundColor: colors.primary },
+  chipText: { fontSize: 14, color: colors.textSecondary, fontWeight: '500' },
+  chipTextActive: { color: '#fff' },
   presets: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 24 },
   presetChip: {
-    backgroundColor: '#e8f6f5',
+    backgroundColor: colors.accentSoft,
     paddingHorizontal: 14,
     paddingVertical: 10,
     borderRadius: 20,
   },
-  presetText: { fontSize: 14, fontWeight: '600', color: '#1a1a2e' },
+  presetText: { fontSize: 14, fontWeight: '600', color: colors.text },
   submit: { marginTop: 8 },
 });

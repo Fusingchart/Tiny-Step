@@ -1,9 +1,10 @@
 /**
- * Large tap target, high-contrast button
+ * Large tap target, playful but adult buttons
  */
 
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
+import { colors, radii } from '../theme/theme';
 
 interface ButtonProps {
   title: string;
@@ -27,11 +28,13 @@ export function Button({ title, onPress, variant = 'primary', disabled, style, t
         disabled && styles.disabled,
         style,
       ]}
-      activeOpacity={0.8}
+      activeOpacity={0.85}
       accessibilityRole="button"
       accessibilityLabel={title}
     >
-      <Text style={[styles.text, variant === 'primary' && styles.textPrimary, textStyle]}>{title}</Text>
+      <Text style={[styles.text, variant === 'primary' && styles.textPrimary, textStyle]}>
+        {title}
+      </Text>
     </TouchableOpacity>
   );
 }
@@ -39,18 +42,23 @@ export function Button({ title, onPress, variant = 'primary', disabled, style, t
 const styles = StyleSheet.create({
   base: {
     minHeight: 56,
-    paddingHorizontal: 24,
+    paddingHorizontal: 28,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 12,
+    borderRadius: radii.md,
   },
   primary: {
-    backgroundColor: '#4ecdc4',
+    backgroundColor: colors.primary,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
   },
   secondary: {
-    backgroundColor: '#e8f6f5',
+    backgroundColor: colors.accentSoft,
     borderWidth: 2,
-    borderColor: '#4ecdc4',
+    borderColor: colors.accent,
   },
   ghost: {
     backgroundColor: 'transparent',
@@ -63,6 +71,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   textPrimary: {
-    color: '#1a1a2e',
+    color: '#FFFFFF',
   },
 });

@@ -4,6 +4,7 @@
 
 import React, { useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Switch, StyleSheet, Share, Alert } from 'react-native';
+import { colors, radii } from '../theme/theme';
 import { useApp } from '../context/AppContext';
 import { BottomBar } from '../components/BottomBar';
 import { storage } from '../storage/storage';
@@ -181,34 +182,34 @@ export function SettingsScreen({ navigation }: { navigation: any }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fafafa' },
+  container: { flex: 1, backgroundColor: colors.background },
   scroll: { flex: 1 },
   content: { padding: 20, paddingTop: 60, paddingBottom: 100 },
-  title: { fontSize: 28, fontWeight: '700', color: '#1a1a2e', marginBottom: 24 },
+  title: { fontSize: 28, fontWeight: '800', color: colors.text, marginBottom: 24 },
   section: { marginBottom: 24 },
-  sectionTitle: { fontSize: 18, fontWeight: '600', color: '#1a1a2e', marginBottom: 12 },
+  sectionTitle: { fontSize: 18, fontWeight: '700', color: colors.text, marginBottom: 12 },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: colors.surface,
     padding: 18,
-    borderRadius: 12,
+    borderRadius: radii.md,
     marginBottom: 8,
-    borderWidth: 1,
-    borderColor: '#e0e0e0',
+    borderWidth: 2,
+    borderColor: colors.border,
     minHeight: 56,
   },
-  rowLabel: { fontSize: 17, color: '#1a1a2e' },
-  rowValue: { fontSize: 15, color: '#4a4a5a' },
+  rowLabel: { fontSize: 17, color: colors.text },
+  rowValue: { fontSize: 15, color: colors.textSecondary },
   stepper: { flexDirection: 'row', alignItems: 'center', gap: 4 },
-  stepperBtn: { width: 32, height: 32, borderRadius: 8, backgroundColor: '#e8f6f5', justifyContent: 'center', alignItems: 'center' },
-  stepperText: { fontSize: 18, color: '#1a1a2e', fontWeight: '600' },
-  stepperValue: { fontSize: 16, color: '#1a1a2e', minWidth: 24, textAlign: 'center' },
-  stats: { backgroundColor: '#fff', padding: 18, borderRadius: 12, borderWidth: 1, borderColor: '#e0e0e0' },
-  stat: { fontSize: 16, color: '#1a1a2e', marginBottom: 8 },
-  exportBtn: { marginTop: 8, padding: 18, backgroundColor: '#e8f6f5', borderRadius: 12 },
-  exportText: { fontSize: 17, color: '#1a1a2e', fontWeight: '600' },
+  stepperBtn: { width: 36, height: 36, borderRadius: radii.sm, backgroundColor: colors.accentSoft, justifyContent: 'center', alignItems: 'center' },
+  stepperText: { fontSize: 20, color: colors.accent, fontWeight: '700' },
+  stepperValue: { fontSize: 16, color: colors.text, minWidth: 24, textAlign: 'center' },
+  stats: { backgroundColor: colors.surface, padding: 18, borderRadius: radii.md, borderWidth: 2, borderColor: colors.border },
+  stat: { fontSize: 16, color: colors.text, marginBottom: 8 },
+  exportBtn: { marginTop: 8, padding: 18, backgroundColor: colors.accentSoft, borderRadius: radii.md },
+  exportText: { fontSize: 17, color: colors.accent, fontWeight: '600' },
   dangerBtn: { marginTop: 12, padding: 18, borderRadius: 12 },
-  dangerText: { fontSize: 17, color: '#e74c3c', fontWeight: '600' },
+  dangerText: { fontSize: 17, color: colors.destructive, fontWeight: '600' },
 });

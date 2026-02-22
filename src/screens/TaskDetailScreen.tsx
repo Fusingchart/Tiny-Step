@@ -4,8 +4,10 @@
 
 import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useApp } from '../context/AppContext';
 import { Button } from '../components/Button';
+import { colors, radii } from '../theme/theme';
 
 export function TaskDetailScreen({ route, navigation }: { route: any; navigation: any }) {
   const { taskId } = route.params;
@@ -68,7 +70,8 @@ export function TaskDetailScreen({ route, navigation }: { route: any; navigation
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
-        <Text style={styles.backText}>← Back</Text>
+        <Ionicons name="arrow-back" size={22} color={colors.primary} />
+        <Text style={styles.backText}>Back</Text>
       </TouchableOpacity>
       <Text style={styles.title}>{task.title}</Text>
       <Text style={styles.subtitle}>Here’s how we’ll break it down:</Text>
@@ -96,34 +99,34 @@ export function TaskDetailScreen({ route, navigation }: { route: any; navigation
         </TouchableOpacity>
       </View>
 
-      <Button title="Start session" onPress={handleStartSession} style={styles.start} />
+      <Button title="Let's go" onPress={handleStartSession} style={styles.start} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fafafa', padding: 20, paddingTop: 56 },
-  back: { marginBottom: 16 },
-  backText: { fontSize: 16, color: '#4ecdc4', fontWeight: '600' },
-  error: { fontSize: 16, color: '#e74c3c' },
-  title: { fontSize: 24, fontWeight: '700', color: '#1a1a2e', marginBottom: 4 },
-  subtitle: { fontSize: 16, color: '#4a4a5a', marginBottom: 20 },
+  container: { flex: 1, backgroundColor: colors.background, padding: 20, paddingTop: 56 },
+  back: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 20 },
+  backText: { fontSize: 17, color: colors.primary, fontWeight: '600' },
+  error: { fontSize: 16, color: colors.accent },
+  title: { fontSize: 26, fontWeight: '800', color: colors.text, marginBottom: 6 },
+  subtitle: { fontSize: 16, color: colors.textSecondary, marginBottom: 24 },
   steps: { flex: 1 },
   stepsContent: { paddingBottom: 20 },
   stepRow: { flexDirection: 'row', marginBottom: 16, alignItems: 'flex-start' },
   stepNum: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: '#4ecdc4',
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: colors.primary,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,
   },
-  stepNumText: { fontSize: 14, fontWeight: '700', color: '#1a1a2e' },
-  stepText: { flex: 1, fontSize: 16, color: '#1a1a2e', lineHeight: 24 },
-  actions: { flexDirection: 'row', gap: 24, marginBottom: 16 },
+  stepNumText: { fontSize: 15, fontWeight: '800', color: '#fff' },
+  stepText: { flex: 1, fontSize: 16, color: colors.text, lineHeight: 24 },
+  actions: { flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginBottom: 20 },
   regen: {},
-  regenText: { fontSize: 14, color: '#4ecdc4', fontWeight: '600' },
+  regenText: { fontSize: 14, color: colors.primary, fontWeight: '600' },
   start: { marginBottom: 40 },
 });

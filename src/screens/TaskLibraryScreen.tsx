@@ -4,10 +4,12 @@
 
 import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useApp } from '../context/AppContext';
 import { BottomBar } from '../components/BottomBar';
 import { CATEGORY_LABELS } from '../constants';
 import { TEMPLATE_LIBRARY } from '../data/templates';
+import { colors, radii } from '../theme/theme';
 
 export function TaskLibraryScreen({ navigation }: { navigation: any }) {
   const { addTask, templates } = useApp();
@@ -32,8 +34,10 @@ export function TaskLibraryScreen({ navigation }: { navigation: any }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Task library</Text>
-      <Text style={styles.subtitle}>Pick a template to get started with micro-steps.</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>Task library</Text>
+        <Text style={styles.subtitle}>Pick a template to get started with micro-steps.</Text>
+      </View>
 
       <FlatList
         data={categories}
@@ -47,9 +51,10 @@ export function TaskLibraryScreen({ navigation }: { navigation: any }) {
                 key={tpl.id}
                 style={styles.row}
                 onPress={() => handleUse(tpl)}
+                activeOpacity={0.7}
               >
                 <Text style={styles.rowText}>{tpl.name}</Text>
-                <Text style={styles.rowArrow}>→</Text>
+                <Ionicons name="chevron-forward" size={20} color={colors.primary} />
               </TouchableOpacity>
             ))}
           </View>
@@ -68,24 +73,27 @@ export function TaskLibraryScreen({ navigation }: { navigation: any }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fafafa', padding: 20, paddingTop: 60 },
-  title: { fontSize: 28, fontWeight: '700', color: '#1a1a2e', marginBottom: 8 },
-  subtitle: { fontSize: 16, color: '#4a4a5a', marginBottom: 24 },
+  container: { flex: 1, backgroundColor: colors.background, padding: 20, paddingTop: 60 },
+  header: { marginBottom: 24 },
+  title: { fontSize: 28, fontWeight: '800', color: colors.text, marginBottom: 8 },
+  subtitle: { fontSize: 16, color: colors.textSecondary },
   list: { paddingBottom: 100 },
-  section: { marginBottom: 24 },
-  sectionTitle: { fontSize: 18, fontWeight: '600', color: '#1a1a2e', marginBottom: 12 },
+  section: { marginBottom: 28 },
+  sectionTitle: { fontSize: 18, fontWeight: '700', color: colors.text, marginBottom: 14 },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: colors.surface,
     padding: 18,
-    borderRadius: 12,
-    marginBottom: 8,
-    borderWidth: 1,
-    borderColor: '#e0e0e0',
-    minHeight: 56,
+    borderRadius: radii.md,
+    marginBottom: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.04,
+    shadowRadius: 4,
+    elevation: 2,
+    minHeight: 60,
   },
-  rowText: { fontSize: 17, color: '#1a1a2e' },
-  rowArrow: { fontSize: 18, color: '#4ecdc4' },
+  rowText: { fontSize: 17, fontWeight: '500', color: colors.text },
 });

@@ -1,9 +1,18 @@
 /**
- * Centered bottom navigation bar
+ * Centered bottom navigation - playful pill style
  */
 
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { colors, radii } from '../theme/theme';
+
+const ICONS: Record<string, keyof typeof Ionicons.glyphMap> = {
+  Home: 'home-outline',
+  Library: 'library-outline',
+  Progress: 'bar-chart-outline',
+  Settings: 'settings-outline',
+};
 
 interface Link {
   label: string;
@@ -18,13 +27,19 @@ export function BottomBar({ links }: BottomBarProps) {
   return (
     <View style={styles.container}>
       <View style={styles.bar}>
-        {links.map((link, i) => (
+        {links.map((link) => (
           <TouchableOpacity
             key={link.label}
             onPress={link.onPress}
-            style={[styles.link, i < links.length - 1 && styles.linkBorder]}
+            style={styles.link}
+            activeOpacity={0.7}
             accessibilityLabel={link.label}
           >
+            <Ionicons
+              name={ICONS[link.label] ?? 'ellipse-outline'}
+              size={22}
+              color={colors.primary}
+            />
             <Text style={styles.linkText}>{link.label}</Text>
           </TouchableOpacity>
         ))}
@@ -44,27 +59,30 @@ const styles = StyleSheet.create({
   },
   bar: {
     flexDirection: 'row',
-    backgroundColor: '#fff',
-    borderRadius: 24,
-    paddingVertical: 8,
-    paddingHorizontal: 8,
+    backgroundColor: colors.surface,
+    borderRadius: 28,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 4,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.06,
+    shadowRadius: 12,
+    elevation: 6,
+    gap: 8,
   },
   link: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-  },
-  linkBorder: {
-    borderRightWidth: 1,
-    borderRightColor: '#e8e8e8',
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: radii.md,
   },
   linkText: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '600',
-    color: '#1a1a2e',
+    color: colors.text,
   },
 });
